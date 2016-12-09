@@ -98,7 +98,7 @@ function receivedPostback(event) {
   }
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+
 }
 function sendGenericMessage(recipientId, messageText) {
     var messageData = {
@@ -126,6 +126,11 @@ function sendGenericMessage(recipientId, messageText) {
                   "type":"postback",
                   "title":"Start Chatting",
                   "payload":"eiei"
+                },
+                {
+                   "type":"phone_number",
+                   "title":"Call Representative",
+                   "payload":"+66914130530"
                 }
               ]
             }
