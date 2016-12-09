@@ -81,7 +81,40 @@ function receivedMessage(event) {
   }
 }
 function sendGenericMessage(recipientId, messageText) {
-  // To be expanded in later sections
+    var messageData = {
+    "recipient":{
+      "id": recipientId
+    },
+    "message":{
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+            {
+              "title":"Welcome to Peter\'s Hats",
+              "item_url":"https://petersfancybrownhats.com",
+              "image_url":"https://petersfancybrownhats.com/company_image.png",
+              "subtitle":"We\'ve got the right hat for everyone.",
+              "buttons":[
+                {
+                  "type":"web_url",
+                  "url":"https://petersfancybrownhats.com",
+                  "title":"View Website"
+                },
+                {
+                  "type":"postback",
+                  "title":"Start Chatting",
+                  "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+  callSendAPI(messageData)
 }
 
 function sendTextMessage(recipientId, messageText) {
