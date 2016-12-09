@@ -31,6 +31,8 @@ app.post('/webhook', function (req, res) {
       entry.messaging.forEach(function(event) {
         if (event.message) {
           receivedMessage(event);
+        }  else if (event.postback) {
+          receivedPostback(messagingEvent)
         } else {
           console.log("Webhook received unknown event: ", event);
         }
@@ -80,6 +82,24 @@ function receivedMessage(event) {
     sendTextMessage(senderID, "Message with attachment received");
   }
 }
+function receivedPostback(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfPostback = event.timestamp;
+
+  // The 'payload' param is a developer-defined field which is set in a postback
+  // button for Structured Messages.
+  var payload = event.postback.payload;
+
+  console.log("Received postback for user %d and page %d with payload '%s' " +
+    "at %d", senderID, recipientID, payload, timeOfPostback);
+  if (payload === 'eiei') {
+    sendTextMessage(senderID, "Message")
+  }
+  // When a postback is called, we'll send a message back to the sender to
+  // let them know it was successful
+  sendTextMessage(senderID, "Postback called");
+}
 function sendGenericMessage(recipientId, messageText) {
     var messageData = {
     "recipient":{
@@ -105,25 +125,7 @@ function sendGenericMessage(recipientId, messageText) {
                 {
                   "type":"postback",
                   "title":"Start Chatting",
-                  "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                }
-              ]
-            },
-            {
-              "title":"Welcome to Peter\'s Hats",
-              "item_url":"https://petersfancybrownhats.com",
-              "image_url":"https://petersfancybrownhats.com/company_image.png",
-              "subtitle":"We\'ve got the right hat for everyone.",
-              "buttons":[
-                {
-                  "type":"web_url",
-                  "url":"https://petersfancybrownhats.com",
-                  "title":"View Website"
-                },
-                {
-                  "type":"postback",
-                  "title":"Start Chatting",
-                  "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                  "payload":"eiei"
                 }
               ]
             }
